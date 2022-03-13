@@ -1,0 +1,1 @@
+$env:Path+=';C:\Users\S2907AF\AppData\Local\Programs\Python\Python38\Scripts;C:\Users\S2907AF\AppData\Local\Programs\Python\Python38'

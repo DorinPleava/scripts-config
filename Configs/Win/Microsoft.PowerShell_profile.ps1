@@ -13,6 +13,7 @@ $env:VIRTUAL_ENV_DISABLE_PROMPT = 1
 Set-Alias ssh-agent "$env:ProgramFiles\git\usr\bin\ssh-agent.exe"
 Set-Alias ssh-add "$env:ProgramFiles\git\usr\bin\ssh-add.exe"
 
+$env:path += ";D:\Work\scripts-config\Scripts\WinScripts"
 
 # Helper function to change directory to my development workspace
 # Change c:\ws to your usual workspace and everytime you type
