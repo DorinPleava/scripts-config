@@ -1,13 +1,22 @@
+# GLOBAL paths sortcuts for Ctrl+j and then the char
+$global:PSReadlineMarks = @{
+  [char]"w"="D:\Work"
+  [char]"e"="D:\Work\pev-simulation-engine"
+  [char]"r"="D:\Work\pev-scenario-runner"
+  [char]"f"="D:\Work\charging-planner-app" # Charging Planner App Frontend
+  [char]"b"="D:\Work\charging-planner-service" # Charging Planner App Backend
+  }
+
 # set PowerShell to UTF-8
 [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
 
 # conda prompt activate
 $env:VIRTUAL_ENV_DISABLE_PROMPT = 1
-$env:Path += ';C:\Users\S2907AF\AppData\Roaming\npm' 
+$env:Path += ';C:\Users\S2907AF\AppData\Roaming\npm;D:\Work\scripts-config\Scripts\WinScripts;C:\ProgramData\chocolatey\bin' 
 
 Import-Module posh-git
 Import-Module oh-my-posh
-$omp_config = Join-Path $PSScriptRoot ".\dorin.omp.json"
+$omp_config = "D:\Work\scripts-config\Configs\Win\dorin.omp.json"
 oh-my-posh --init --shell pwsh --config $omp_config | Invoke-Expression
 
 Import-Module -Name Terminal-Icons
@@ -15,8 +24,12 @@ Import-Module -Name Terminal-Icons
 # PSReadLine
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -BellStyle None
-Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
+# Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
 Set-PSReadLineOption -PredictionSource History
+
+Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 # Fzf
 Import-Module PSFzf
@@ -35,7 +48,7 @@ Set-Alias vim 'C:\Program Files\Vim\vim82\vim.exe'
 
 function lss
 {
-    Get-ChildItem | Format-Wide -autosize
+    Get-ChildItem $args | Format-Wide -autosize
 }
 function gitfetchall {
   git fetch --all
@@ -60,12 +73,7 @@ function which ($command) {
 # Ctrj+j then the same key will change back to that directory without
 # needing to type cd and won't change the command line.
 #pre-populate a global variable
-$global:PSReadlineMarks = @{
-  [char]"w"="D:\Work"
-  [char]"e"="D:\Work\pev-simulation-engine"
-  [char]"r"="D:\Work\pev-scenario-runner"
-  [char]"p"="D:\Work\charging-planner-app"
-  }
+
   Set-PSReadlineKeyHandler -Key Ctrl+Alt+j -BriefDescription MarkDirectory -LongDescription "Mark the current directory. [$($env:username)]" -ScriptBlock {
   #press a single character to mark the current directory
       $key = [Console]::ReadKey($true)
